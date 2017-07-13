@@ -172,5 +172,6 @@ void printHelp()
 	cout<<"\t -p <subject_color_channel> <threshold>     the channel you want to perform thresholding and the threshold"<<endl;
 	cout<<"\t                                            the 2 paras must come in this order"<<endl;
 	cout<<"\nDemo: v3d -x libexample_debug.dylib -f image_thresholding -i input.tif -o output.tif -p 0 100\n"<<endl;
+  
 	return;
 }

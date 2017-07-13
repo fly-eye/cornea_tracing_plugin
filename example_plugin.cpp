@@ -4,9 +4,14 @@
  */
 
 #include "v3d_message.h"
+#include "v3d_interface.h"
 
 #include "example_plugin.h"
 #include "example_func.h"
+#include <iostream>
+#include "ada_threshold.h"
+using namespace std;
+
 
 // 1- Export the plugin class to a target, the first item in the bracket should match the TARGET parameter in the .pro file
 Q_EXPORT_PLUGIN2(example, ExamplePlugin);
@@ -57,6 +62,16 @@ bool ExamplePlugin::dofunc(const QString & func_name, const V3DPluginArgList & i
 	if (func_name == tr("image_thresholding"))
 	{
 		image_threshold(input, output);
+	}
+	else if (func_name == tr("simple_adaptive_thresholding"))
+	{
+		V3DPluginCallback *v3d_interface;
+		cout<<"Here"<<endl;
+  	v3d_interface->callPluginFunc("ada_threshold", "adath", input, output);
+	}
+	else if (func_name == "rescaling")
+	{
+    cout<<"Not Implemented"<<endl;
 	}
 	else if (func_name == tr("help"))
 	{

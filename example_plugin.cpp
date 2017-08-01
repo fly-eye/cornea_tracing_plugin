@@ -3,13 +3,12 @@
  * 2012-02-10 : by Yinan Wan
  */
 
-#include "v3d_message.h"
-#include "v3d_interface.h"
-
+//#include "v3d_message.h"
+//#include "v3d_interface.h"
 #include "example_plugin.h"
 #include "example_func.h"
 #include <iostream>
-#include "ada_threshold.h"
+//#include "ada_threshold.h"
 using namespace std;
 
 
@@ -67,7 +66,7 @@ bool ExamplePlugin::dofunc(const QString & func_name, const V3DPluginArgList & i
 	{
 		V3DPluginCallback *v3d_interface;
 		cout<<"Here"<<endl;
-  	v3d_interface->callPluginFunc("ada_threshold", "adath", input, output);
+  	//v3d_interface->callPluginFunc("ada_threshold", "adath", input, output);
 	}
 	else if (func_name == "rescaling")
 	{

@@ -3,7 +3,6 @@
  * 2012-02-13 : by Yinan Wan
  */
 
-#include <v3d_interface.h>
 #include "v3d_message.h"
 #include "stackutil.h"
 #include "example_func.h"
@@ -87,7 +86,7 @@ int image_threshold(V3DPluginCallback2 &callback, QWidget *parent)
  */
 int image_threshold(const V3DPluginArgList & input, V3DPluginArgList & output)
 {
-	cout<<"Welcome to image_threshold function"<<endl;
+	cout<<"Welcome to image_threshold function: this one"<<endl;
 	if(input.size() != 2 || output.size() != 1)
 	{
 		cout<<"illegal input!"<<endl;
@@ -172,6 +171,6 @@ void printHelp()
 	cout<<"\t -p <subject_color_channel> <threshold>     the channel you want to perform thresholding and the threshold"<<endl;
 	cout<<"\t                                            the 2 paras must come in this order"<<endl;
 	cout<<"\nDemo: v3d -x libexample_debug.dylib -f image_thresholding -i input.tif -o output.tif -p 0 100\n"<<endl;
-  
+
 	return;
 }

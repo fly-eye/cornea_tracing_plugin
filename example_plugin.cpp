@@ -7,8 +7,8 @@
 //#include "v3d_interface.h"
 #include "example_plugin.h"
 #include "example_func.h"
+#include "ada_thresholding.h"
 #include <iostream>
-#include "ada_threshold.h"
 using namespace std;
 
 
@@ -53,6 +53,8 @@ void ExamplePlugin::domenu(const QString &menu_name, V3DPluginCallback2 &callbac
 	}
 }
 
+
+
 // 5 - Call the functions corresponding to dofunc
 //     The functions may not necessarily be in example_func.cpp, but you are strongly recommended to do so
 //     to seperate the Interface from the core functions, and it is consistant with the form in plugin_creator
@@ -64,8 +66,9 @@ bool ExamplePlugin::dofunc(const QString & func_name, const V3DPluginArgList & i
 	}
 	else if (func_name == tr("simple_adaptive_thresholding"))
 	{
-		V3DPluginCallback *v3d_interface;
+
 		cout<<"Here"<<endl;
+		thimg(callback, input, output);
   	//v3d_interface->callPluginFunc("ada_threshold", "adath", input, output);
     //mypluginloader
 		//mypluginloader->callPluginFunc(fullpath, "neuron_toolbox", input, output);

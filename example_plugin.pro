@@ -67,6 +67,9 @@ SOURCE += $$V3DMAINPATH/v3d/mdichild.cpp
 SOURCE += $$V3DMAINPATH/v3d/3drenderer/v3dr_mainwindow.cpp
 #SOURCE += $$V3DMAINPATH/v3d/3drenderer/v3dr_glwidget.cpp
 
+## Source files needed for SIGEN
+SOURCE += SIGEN.cpp
+
 
 
 #specify target name and directory

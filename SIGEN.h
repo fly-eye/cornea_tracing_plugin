@@ -1,3 +1,6 @@
+#include <QString>
+#include "v3d_basicdatatype.h"
+
 // missing definition of input_PARA
 struct input_PARA {
   QString inimg_file;
@@ -11,10 +14,13 @@ struct input_PARA {
 //    bool via_gui);
 
 //void reconstruction_func(Image4DSimple &p4DImage, bool via_gui);
+// reconstruction_func(unsigned char * pData,
+//  V3DLONG sz0,
+//  V3DLONG sz1,
+//  V3DLONG sz2,
+//  V3DLONG sz3,
+//  const int datatype,
+//  bool via_gui);
+
 void reconstruction_func(unsigned char * pData,
-  V3DLONG sz0,
-  V3DLONG sz1,
-  V3DLONG sz2,
-  V3DLONG sz3,
-  const int datatype,
-  bool via_gui);
+    bool via_gui);

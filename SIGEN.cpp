@@ -1,6 +1,19 @@
-#include "sigen/common/binary_cube.h"
-#include "sigen/interface.h"
+#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/common/binary_cube.h"
+#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/interface.h"
 #include "SIGEN.h"
+#include <iostream>
+#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/common/neuron.h"
+#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/common/disjoint_set.h"
+#include <basic_surf_objs.h>
+
+
+#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/builder/builder.h"
+#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/extractor/extractor.h"
+#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/toolbox/toolbox.h"
+#include <boost/foreach.hpp>
+#include <cassert>
+#include <vector>
+using namespace std;
 
 
 
@@ -16,17 +29,57 @@
 //    bool via_gui) {
 
 // Try to pass the data directly
-void reconstruction_func(unsigned char * pData,
-    V3DLONG sz0,
-    V3DLONG sz1,
-    V3DLONG sz2,
-    V3DLONG sz3,
-    const int datatype,
-    bool via_gui){
+//void reconstruction_func(unsigned char * pData,
+//    V3DLONG sz0,
+//    V3DLONG sz1,
+//    V3DLONG sz2,
+//    V3DLONG sz3,
+//    const int datatype,
+//    bool via_gui){
 
-  input_PARA &PARA;
-  PARA.channel = 0;
-  //PARA.inimg_file =
+//struct input_PARA {
+//  QString inimg_file;
+//  V3DLONG channel;
+//};
+
+
+static sigen::BinaryCube convertToBinaryCube(
+    const unsigned char *p,
+    const int unit_byte,
+    const int xdim,
+    const int ydim,
+    const int zdim,
+    const int /* channel_dim */,
+    const int channel) {
+  const int stride_x = unit_byte;
+  const int stride_y = unit_byte * xdim;
+  const int stride_z = unit_byte * xdim * ydim;
+  const int stride_c = unit_byte * xdim * ydim * zdim;
+  sigen::BinaryCube cube(xdim, ydim, zdim);
+  for (int x = 0; x < xdim; ++x) {
+    for (int y = 0; y < ydim; ++y) {
+      for (int z = 0; z < zdim; ++z) {
+        if (p[stride_x * x + stride_y * y + stride_z * z + stride_c * channel] >= 128) {
+          cube[x][y][z] = true;
+        } else {
+          cube[x][y][z] = false;
+        }
+      }
+    }
+  }
+  return cube;
+}
+
+void reconstruction_func(unsigned char * pData, bool via_gui){
+  cout<<"reconstruction";
+}
+
+
+void reconstruction_func_full(unsigned char * pData, bool via_gui){
+
+  //input_PARA &PARA;
+  //PARA.channel = 0;
+  //PARA.inimg_file = "dummy_filename";
 
   unsigned char *data1d = NULL;
   V3DLONG N, M, P, sc, c;
@@ -87,16 +140,23 @@ void reconstruction_func(unsigned char * pData,
 
   // The image
 
-  if (!p4DImage) {
-    QMessageBox::information(0, "", "The image pointer is invalid. Ensure your data is valid and try again!");
-    return;
-  }
-  data1d = p4DImage->getRawData();
-  N = p4DImage->getXDim();
-  M = p4DImage->getYDim();
-  P = p4DImage->getZDim();
-  sc = p4DImage->getCDim();
-z
+  //if (!p4DImage) {
+  //  QMessageBox::information(0, "", "The image pointer is invalid. Ensure your data is valid and try again!");
+  //  return;
+  //}
+
+  //data1d = p4DImage->getRawData();
+  //N = p4DImage->getXDim();
+  //M = p4DImage->getYDim();
+  //P = p4DImage->getZDim();
+  //sc = p4DImage->getCDim();
+
+  data1d = pData;
+  //N =
+  //M = p4DImage->getYDim();
+  //P = p4DImage->getZDim();
+  //sc = p4DImage->getCDim();
+
 
 
 
@@ -108,10 +168,12 @@ z
   sigen::interface::Options options;
   if(via_gui)
   {
-      bool retval = getConfig(parent, &options);
-      if (!retval) {
-        return;
-      }
+      //bool retval = getConfig(parent, &options);
+      //if (!retval) {
+      //  return;
+      //}
+      cout<<"Via Gui";
+      return;
   }else
   {
       options.scale_xy = 1.0;

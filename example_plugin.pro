@@ -18,7 +18,11 @@ INCLUDEPATH += $$V3DMAINPATH/common_lib/include
 INCLUDEPATH += $$V3D_PLUGINS/ada_threshold
 INCLUDEPATH += /Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/ada_threshold
 INCLUDEPATH += $$QT_SHARED_FOLDER
-INCLUDEPATH  += $$V3DMAINPATH/v3d
+INCLUDEPATH += $$V3DMAINPATH/v3d
+# including path needed for SIGEN plugin
+INCLUDEPATH += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src
+INCLUDEPATH += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/third_party
+INCLUDEPATH += $$VAA3DPATH/v3d_main/common_lib/include
 
 LIBS += -L. -lv3dtiff -L$$V3DMAINPATH/common_lib/lib
 
@@ -30,6 +34,7 @@ HEADERS += ada_thresholding.h
 #HEADERS += $$V3DMAINPATH/3drenderer/v3dr_mainwindow.h
 #HEADERS += $$V3DMAINPATH/3drenderer/v3dr_glwidget.h
 #HEADERS += $$V3DMAINPATH/3drenderer/qtr_widget.h
+
 
 macx{
     LIBS += -L$$V3DMAINPATH/jba/c++ -lv3dnewmat
@@ -59,16 +64,24 @@ SOURCES += ada_thresholding.cpp
 #SOURCES += $$V3D_PLUGINS/ada_threshold/moc_ada_threshold.cpp
 SOURCES += $$V3DMAINPATH/jba/c++/histeq.cpp
 SOURCES += $$V3DMAINPATH/neuron_editing/v_neuronswc.cpp
-SOURCE += $$V3DMAINPATH/v3d/mainwindow.cpp
-SOURCE += $$V3DMAINPATH/v3d/mainwindow_interface.cpp
-SOURCE += $$V3DMAINPATH/v3d/mainwindow_wsi.cpp
-#SOURCE += $$V3DMAINPATH/v3d/*
-SOURCE += $$V3DMAINPATH/v3d/mdichild.cpp
-SOURCE += $$V3DMAINPATH/v3d/3drenderer/v3dr_mainwindow.cpp
-#SOURCE += $$V3DMAINPATH/v3d/3drenderer/v3dr_glwidget.cpp
+#SOURCES += $$V3DMAINPATH/v3d/mainwindow.cpp
+#SOURCES += $$V3DMAINPATH/v3d/mainwindow_interface.cpp
+#SOURCES += $$V3DMAINPATH/v3d/mainwindow_wsi.cpp
+#SOURCES += $$V3DMAINPATH/v3d/*
+#SOURCES += $$V3DMAINPATH/v3d/mdichild.cpp
+#SOURCES += $$V3DMAINPATH/v3d/3drenderer/v3dr_mainwindow.cpp
+#SOURCES += $$V3DMAINPATH/v3d/3drenderer/v3dr_glwidget.cpp
 
 ## Source files needed for SIGEN
-SOURCE += SIGEN.cpp
+SOURCES += SIGEN.cpp
+
+SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen/common/neuron.cpp
+SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen/interface.cpp
+SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen/extractor/extractor.cpp
+SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen/builder/builder.cpp
+SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen/toolbox/toolbox.cpp
+SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen/common/disjoint_set.cpp
+SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/third_party/kdtree/kdtree.c
 
 
 

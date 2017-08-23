@@ -85,6 +85,7 @@ SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/third_party/kdtree/kdtree.c
 
 
 
+
 #specify target name and directory
 TARGET	= $$qtLibraryTarget(example_plugin)
 DESTDIR	= $$VAA3DPATH/bin/plugins/example_plugin/

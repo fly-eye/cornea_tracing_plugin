@@ -13,6 +13,9 @@
 #include <boost/foreach.hpp>
 #include <cassert>
 #include <vector>
+
+#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/3drenderer/v3dr_mainwindow.h>
+#include "/Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/basic_c_fun/v3d_interface.h"
 using namespace std;
 
 
@@ -71,11 +74,21 @@ static sigen::BinaryCube convertToBinaryCube(
 }
 
 void reconstruction_func(unsigned char * pData, bool via_gui){
-  cout<<"reconstruction";
+  cout<<"reconstruction"<<endl;
 }
 
 
-void reconstruction_func_full(unsigned char * pData, bool via_gui){
+//void reconstruction_func_full(unsigned char * data1d,
+
+//void reconstruction_func_full(Image4DSimple *p4DImage,
+//  V3DLONG sz0,
+//  V3DLONG sz1,
+//  V3DLONG sz2,
+//  V3DLONG sz3,
+//  const int datatype,
+//  bool via_gui){
+
+void reconstruction_func_full(V3DPluginCallback2 &callback, int datatype, QString outimg_file, bool via_gui){
 
   //input_PARA &PARA;
   //PARA.channel = 0;
@@ -84,6 +97,16 @@ void reconstruction_func_full(unsigned char * pData, bool via_gui){
   unsigned char *data1d = NULL;
   V3DLONG N, M, P, sc, c;
   V3DLONG in_sz[4];
+  //PARA.inimg_file = "output_image.tif";
+  // Image4DSimple *p4DImage = callback.getImage(curwin);
+  //const char * filename = "output_image.tif";
+
+  datatype = 0;
+  if (!simple_loadimage_wrapper(callback, outimg_file.toStdString().c_str(), data1d, in_sz, datatype)) {
+    fprintf(stderr, "Error happens in reading the subject file [%s]. Exit. \n", outimg_file.toStdString().c_str());
+    return;
+  }
+
 
   /*
   if (via_gui) {
@@ -149,16 +172,22 @@ void reconstruction_func_full(unsigned char * pData, bool via_gui){
   //N = p4DImage->getXDim();
   //M = p4DImage->getYDim();
   //P = p4DImage->getZDim();
-  //sc = p4DImage->getCDim();
+  //c = p4DImage->getCDim();
 
-  data1d = pData;
-  //N =
-  //M = p4DImage->getYDim();
-  //P = p4DImage->getZDim();
-  //sc = p4DImage->getCDim();
+  //load image:
 
 
+  //N = sz0;
+  //M = sz1;
+  //P = sz2;
+  //sc = sz2;
 
+  N = in_sz[0];
+  M = in_sz[1];
+  P = in_sz[2];
+  sc = in_sz[3];
+
+  //data1d = p4DImage.getData(datatype);
 
 
   //main neuron reconstruction code

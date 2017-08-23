@@ -207,10 +207,15 @@ k++;
 Image4DSimple p4DImage;
 p4DImage.setData((unsigned char*)pData, sz0, sz1, sz2, sz3, subject->getDatatype());
 
+
+
 //reconstruction_func((unsigned char*)pData, sz0, sz1, sz2, sz3, subject->getDatatype(), /* via_gui = */ false);
-reconstruction_func((unsigned char*)pData, /* via_gui = */ false);
+//reconstruction_func_full((unsigned char*)pData, sz0, sz1, sz2, sz3,/* via_gui = */ false);
+//reconstruction_func_full(&p4DImage, sz0, sz1, sz2, sz3, subject->getDatatype(),/* via_gui = */ false);
 //p4DImage.saveImage(outimg_file);
 callback.saveImage(&p4DImage,outimg_file);
+
+reconstruction_func_full(callback, subject->getDatatype(),outimg_file,false);
 
 
 // moving data from Image4DSimple image format to

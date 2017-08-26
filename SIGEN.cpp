@@ -88,24 +88,54 @@ void reconstruction_func(unsigned char * pData, bool via_gui){
 //  const int datatype,
 //  bool via_gui){
 
-void reconstruction_func_full(V3DPluginCallback2 &callback, int datatype, QString outimg_file, bool via_gui){
+//void reconstruction_func_full(V3DPluginCallback2 &callback, int datatype, QString outimg_file, bool via_gui){
+void rescale (unsigned char * data1d, int totalsize){
+	for (int i=0;i<totalsize;i++)
+	{
+		//if (data1d[i]<0) data1d[i] = 0;
+		//if (data1d[i]>255) data1d[i] = 255;
+    if (data1d[i]>200) data1d[i] = 255;
+    if (data1d[i]<=200) data1d[i] = 0;
+	}
+}
+void reconstruction_func_direct(unsigned char * data1d,
+      V3DLONG sz0,
+      V3DLONG sz1,
+      V3DLONG sz2,
+      V3DLONG sz3,
+      const int datatype,
+      bool via_gui){
 
   //input_PARA &PARA;
   //PARA.channel = 0;
   //PARA.inimg_file = "dummy_filename";
 
-  unsigned char *data1d = NULL;
+  //unsigned char * data1d = NULL;
+  //unsigned char * data1d = NULL;
+  //data1d = pData;
   V3DLONG N, M, P, sc, c;
   V3DLONG in_sz[4];
+
+  in_sz[0] = sz0;
+  in_sz[1] = sz1;
+  in_sz[2] = sz2;
+  in_sz[3] = sz3;
   //PARA.inimg_file = "output_image.tif";
   // Image4DSimple *p4DImage = callback.getImage(curwin);
   //const char * filename = "output_image.tif";
 
-  datatype = 0;
-  if (!simple_loadimage_wrapper(callback, outimg_file.toStdString().c_str(), data1d, in_sz, datatype)) {
-    fprintf(stderr, "Error happens in reading the subject file [%s]. Exit. \n", outimg_file.toStdString().c_str());
-    return;
-  }
+
+
+  //outimg_file = "/Users/valentina/Downloads/Holco_Scan29_rescaled.v3draw";
+  //if (!simple_loadimage_wrapper(callback, outimg_file.toStdString().c_str(), data1d, in_sz, datatype1)) {
+  //  fprintf(stderr, "Error happens in reading the subject file [%s]. Exit. \n", outimg_file.toStdString().c_str());
+  //  return;
+  //}
+  //cout<<in_sz[0]<<endl;
+  //cout<<in_sz[1]<<endl;
+  //cout<<in_sz[2]<<endl;
+  //cout<<in_sz[3]<<endl;
+
 
 
   /*
@@ -186,6 +216,7 @@ void reconstruction_func_full(V3DPluginCallback2 &callback, int datatype, QStrin
   M = in_sz[1];
   P = in_sz[2];
   sc = in_sz[3];
+  c = 1;
 
   //data1d = p4DImage.getData(datatype);
 
@@ -231,6 +262,7 @@ void reconstruction_func_full(V3DPluginCallback2 &callback, int datatype, QStrin
       cube, out_n, out_type,
       out_x, out_y, out_z,
       out_r, out_pn, options);
+  cout<<"extract end"<<endl;
 
   // construct NeuronTree
   NeuronTree nt;
@@ -247,15 +279,17 @@ void reconstruction_func_full(V3DPluginCallback2 &callback, int datatype, QStrin
     pt.pn = out_pn[i];
     nt.listNeuron.push_back(pt);
   }
+  cout<<"writing out"<<endl;
 
   // QString swc_name = PARA.inimg_file + "_SIGEN.swc";
   QString swc_name = "output_SIGEN.swc";
   writeSWC_file(swc_name.toStdString().c_str(), nt);
   if (!via_gui) {
     if (data1d) {
-      delete[] data1d;
-      data1d = NULL;
+      //delete[] data1d;
+      //data1d = NULL;
     }
   }
   v3d_msg(QString("Now you can drag and drop the generated swc fle [%1] into Vaa3D.").arg(swc_name.toStdString().c_str()), via_gui);
+  return;
 }

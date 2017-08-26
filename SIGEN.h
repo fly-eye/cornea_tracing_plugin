@@ -22,7 +22,7 @@ struct input_PARA {
 //  V3DLONG sz3,
 //  const int datatype,
 //  bool via_gui);
-
+void rescale (unsigned char * data1d, int totalsize);
 void reconstruction_func(unsigned char * pData,
     bool via_gui);
 //void reconstruction_func_full(unsigned char * pData,
@@ -34,4 +34,11 @@ void reconstruction_func(unsigned char * pData,
 //    const int datatype,
 //        bool via_gui);
 
-void reconstruction_func_full(V3DPluginCallback2 &callback, int datatype, QString outimg_file, bool via_gui);
+//void reconstruction_func_full(V3DPluginCallback2 &callback, int datatype, QString outimg_file, bool via_gui);
+void reconstruction_func_direct(unsigned char * pData,
+    V3DLONG sz0,
+    V3DLONG sz1,
+    V3DLONG sz2,
+    V3DLONG sz3,
+    const int datatype,
+    bool via_gui);

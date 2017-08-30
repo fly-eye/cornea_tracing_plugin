@@ -1,19 +1,17 @@
 #include "ada_thresholding.h"
-//#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/v3d/v3d_core.h>
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/v3d/mainwindow.h>
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/v3d/v3d_core.h>
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/basic_c_fun/basic_surf_objs.h>
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/jba/c++/histeq.h>
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/neuron_editing/v_neuronswc.h>
+#include <basic_surf_objs.h> #in V3DMAINPATH/basic_c_fun
+#include <histeq.h> #in V3DMAINPATH/jba/c++
+#include <v_neuronswc.h> #in V3DMAINPATH/neuron_editing
 #include <iostream>
 #include <vector>
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/v3d/mdichild.h>
 #include <QMainWindow>
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/v3d/xformwidget.h>
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/3drenderer/v3dr_mainwindow.h>
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/3drenderer/qtr_widget.h>
-//#include <QtWidgets>
-//#include <QWidget>
+#include <mainwindow.h> #in V3DMAINPATH/v3d
+#include <v3d_core.h> #in V3DMAINPATH/v3d
+#include <mdichild.h> #in V3DMAINPATH/v3d
+#include <xformwidget.h> #in V3DMAINPATH/v3d
+#include <v3dr_mainwindow.h> #in V3DMAINPATH/3drenderer
+#include <qtr_widget.h> #in V3DMAINPATH/3drenderer
+
 
 //headers needed for running SIGEN
 #include "SIGEN.h"
@@ -88,7 +86,7 @@ bool thimg(V3DPluginCallback2 &callback, const V3DPluginArgList & input, V3DPlug
      V3DLONG sz1 = subject->getYDim();
      V3DLONG sz2 = subject->getZDim();
      V3DLONG sz3 = subject->getCDim();
-    V3DLONG pagesz_sub = sz0*sz1*sz2;
+     V3DLONG pagesz_sub = sz0*sz1*sz2;
 
 	//----------------------------------------------------------------------------------------------------------------------------------
 	V3DLONG channelsz = sz0*sz1*sz2;
@@ -167,14 +165,12 @@ bool thimg(V3DPluginCallback2 &callback, const V3DPluginArgList & input, V3DPlug
 //----------------------------------------------------------------------------------------------------------------------------------
 
 clock_t end_t = clock();
-printf("time eclapse %d s for dist computing!\n", (end_t-start_t)/1000000);
+printf("time elapse %d s for dist computing!\n", (end_t-start_t)/1000000);
 
 
 //-------------------------------------------------------------------------------------------
 // Histogram equalization
 //-------------------------------------------------------------------------------------------
-//unsigned char a = * pData;
-//cout<<a[0]<<endl;
 printf("\nhistogram equalization ...\n");
 int lowerbound = 30, higherbound = 255;
 if (!hist_eq_range_uint8( (unsigned char *)pData, sz0*sz1*sz2*sz3, lowerbound, higherbound))
@@ -184,10 +180,7 @@ if (!hist_eq_range_uint8( (unsigned char *)pData, sz0*sz1*sz2*sz3, lowerbound, h
 }
 
 
-
 rescale((unsigned char *) pData, sz0*sz1*sz2*sz3);
-cout<<"finished with rescaling"<<endl;
-
 //-------------------------------------------------------------------------------------------
 // SIGEN Tracing
 //-------------------------------------------------------------------------------------------
@@ -206,43 +199,12 @@ int k = 0;
 PARA.channel = ((int)paras.size() >= k + 1) ? atoi(paras[k]) : 1;
 k++;
 
-//reconstruction_func((unsigned char*)pData, parent, PARA, /* via_gui = */ false);
-//const V3DPluginArgList & input, V3DPluginArgList & output)
-
-
 Image4DSimple p4DImage;
-
-
-
-
-//reconstruction_func((unsigned char*)pData, sz0, sz1, sz2, sz3, subject->getDatatype(), /* via_gui = */ false);
-//reconstruction_func_full((unsigned char*)pData, sz0, sz1, sz2, sz3,/* via_gui = */ false);
-//reconstruction_func_full(&p4DImage, sz0, sz1, sz2, sz3, subject->getDatatype(),/* via_gui = */ false);
-//p4DImage.saveImage(outimg_file);
-
-
-//reconstruction_func_full(callback, subject->getDatatype(),outimg_file,false);
-//cout<<pData[0]<<endl;
-
 p4DImage.setData((unsigned char *)pData, sz0, sz1, sz2, sz3, subject->getDatatype());
 callback.saveImage(&p4DImage,outimg_file);
-reconstruction_func_direct((unsigned char *)pData, sz0, sz1, sz2, sz3, subject->getDatatype(),false);
 
-
-// moving data from Image4DSimple image format to
-//My4DImage my4DImage_test;
-//my4DImage_test.setNewImageData((unsigned char*)pData, sz0, sz1, sz2, sz3, subject->getDatatype());
-//my4DImage_test.proj_general_hist_equalization(0,255);
-
-//v3dhandle newwin;
-//if(QMessageBox::Yes == QMessageBox::question (0, "", QString("Do you want to use the existing window?"), QMessageBox::Yes, QMessageBox::No))
-	//newwin = callback.currentImageWindow();
-//else
-	//newwin = callback.newImageWindow();
-
-//callback.setImage(newwin, &p4DImage);
-//callback.setImageName(newwin, QString("thresholded image"));
-//callback.updateImageWindow(newwin);
+// neuron tracing algorithm
+neuron_tracing((unsigned char *)pData, sz0, sz1, sz2, sz3, subject->getDatatype(),PARA,false);
 return(true);
 
 }

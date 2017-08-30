@@ -16,13 +16,17 @@ QT_SHARED_FOLDER = $$QT_DIR/demos/shared # for arthurwidgets
 INCLUDEPATH	+= $$V3DMAINPATH/basic_c_fun
 INCLUDEPATH += $$V3DMAINPATH/common_lib/include
 INCLUDEPATH += $$V3D_PLUGINS/ada_threshold
-INCLUDEPATH += /Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/ada_threshold
 INCLUDEPATH += $$QT_SHARED_FOLDER
 INCLUDEPATH += $$V3DMAINPATH/v3d
-# including path needed for SIGEN plugin
+# including paths needed for SIGEN plugin
 INCLUDEPATH += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src
 INCLUDEPATH += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/third_party
+INCLUDEPATH += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen
 INCLUDEPATH += $$VAA3DPATH/v3d_main/common_lib/include
+INCLUDEPATH += $$V3DMAINPATH/3drenderer
+INCLUDEPATH += $$V3DMAINPATH/jba/c++
+INCLUDEPATH += $$V3DMAINPATH/neuron_editing
+
 
 LIBS += -L. -lv3dtiff -L$$V3DMAINPATH/common_lib/lib
 
@@ -82,6 +86,7 @@ SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen/builder/builder.cp
 SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen/toolbox/toolbox.cpp
 SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen/common/disjoint_set.cpp
 SOURCES += $$V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/third_party/kdtree/kdtree.c
+
 
 
 

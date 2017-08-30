@@ -1,50 +1,21 @@
-#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/common/binary_cube.h"
-#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/interface.h"
 #include "SIGEN.h"
-#include <iostream>
-#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/common/neuron.h"
-#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/common/disjoint_set.h"
 #include <basic_surf_objs.h>
-
-
-#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/builder/builder.h"
-#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/extractor/extractor.h"
-#include "/Users/valentina/projects/Vaa3dbuild_new/vaa3d_tools/released_plugins/v3d_plugins/bigneuron_hide_ikeno_SIGEN/src/sigen/toolbox/toolbox.h"
+#include <v3d_interface.h>
+#include <v3dr_mainwindow.h>
+#include <iostream>
+//in V3D_PLUGINS/bigneuron_hide_ikeno_SIGEN/src/sigen
+#include <interface.h>
+#include "common/binary_cube.h"
+#include "common/neuron.h"
+#include "common/disjoint_set.h"
+#include "builder/builder.h"
+#include "extractor/extractor.h"
+#include "toolbox/toolbox.h"
 #include <boost/foreach.hpp>
 #include <cassert>
 #include <vector>
 
-#include </Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/3drenderer/v3dr_mainwindow.h>
-#include "/Users/valentina/projects/Vaa3dbuild_new/v3d_external/v3d_main/basic_c_fun/v3d_interface.h"
 using namespace std;
-
-
-
-//void reconstruction_func(
-//    V3DPluginCallback2 &callback,
-
-//    const V3DPluginArgList & input,
-//    const V3DPluginArgList & output,
-//    bool via_gui) {
-
-//void reconstruction_func(
-//    Image4DSimple &p4DImage,
-//    bool via_gui) {
-
-// Try to pass the data directly
-//void reconstruction_func(unsigned char * pData,
-//    V3DLONG sz0,
-//    V3DLONG sz1,
-//    V3DLONG sz2,
-//    V3DLONG sz3,
-//    const int datatype,
-//    bool via_gui){
-
-//struct input_PARA {
-//  QString inimg_file;
-//  V3DLONG channel;
-//};
-
 
 static sigen::BinaryCube convertToBinaryCube(
     const unsigned char *p,
@@ -73,46 +44,32 @@ static sigen::BinaryCube convertToBinaryCube(
   return cube;
 }
 
-void reconstruction_func(unsigned char * pData, bool via_gui){
-  cout<<"reconstruction"<<endl;
-}
-
-
-//void reconstruction_func_full(unsigned char * data1d,
-
-//void reconstruction_func_full(Image4DSimple *p4DImage,
-//  V3DLONG sz0,
-//  V3DLONG sz1,
-//  V3DLONG sz2,
-//  V3DLONG sz3,
-//  const int datatype,
-//  bool via_gui){
-
-//void reconstruction_func_full(V3DPluginCallback2 &callback, int datatype, QString outimg_file, bool via_gui){
 void rescale (unsigned char * data1d, int totalsize){
 	for (int i=0;i<totalsize;i++)
 	{
 		//if (data1d[i]<0) data1d[i] = 0;
 		//if (data1d[i]>255) data1d[i] = 255;
+
+    //thresholds the image at 200: what should be the threshold???
     if (data1d[i]>200) data1d[i] = 255;
     if (data1d[i]<=200) data1d[i] = 0;
 	}
 }
-void reconstruction_func_direct(unsigned char * data1d,
+void neuron_tracing(unsigned char * data1d,
       V3DLONG sz0,
       V3DLONG sz1,
       V3DLONG sz2,
       V3DLONG sz3,
       const int datatype,
+      input_PARA &PARA,
       bool via_gui){
 
-  //input_PARA &PARA;
-  //PARA.channel = 0;
-  //PARA.inimg_file = "dummy_filename";
+  /* neuron_tracing: this function runs the neuron tracing algorithm
+    - it generates a neuron tree object which is stored .swc file
+    - if I want to automatically generate the name of the output file, I need to
+      pass the name of the input file
+  */
 
-  //unsigned char * data1d = NULL;
-  //unsigned char * data1d = NULL;
-  //data1d = pData;
   V3DLONG N, M, P, sc, c;
   V3DLONG in_sz[4];
 
@@ -120,23 +77,12 @@ void reconstruction_func_direct(unsigned char * data1d,
   in_sz[1] = sz1;
   in_sz[2] = sz2;
   in_sz[3] = sz3;
-  //PARA.inimg_file = "output_image.tif";
-  // Image4DSimple *p4DImage = callback.getImage(curwin);
-  //const char * filename = "output_image.tif";
 
-
-
-  //outimg_file = "/Users/valentina/Downloads/Holco_Scan29_rescaled.v3draw";
-  //if (!simple_loadimage_wrapper(callback, outimg_file.toStdString().c_str(), data1d, in_sz, datatype1)) {
-  //  fprintf(stderr, "Error happens in reading the subject file [%s]. Exit. \n", outimg_file.toStdString().c_str());
-  //  return;
-  //}
-  //cout<<in_sz[0]<<endl;
-  //cout<<in_sz[1]<<endl;
-  //cout<<in_sz[2]<<endl;
-  //cout<<in_sz[3]<<endl;
-
-
+  N = in_sz[0];
+  M = in_sz[1];
+  P = in_sz[2];
+  sc = in_sz[3];
+  c = 1; //first channel
 
   /*
   if (via_gui) {
@@ -191,38 +137,7 @@ void reconstruction_func_direct(unsigned char * data1d,
   */
 
 
-  // The image
-
-  //if (!p4DImage) {
-  //  QMessageBox::information(0, "", "The image pointer is invalid. Ensure your data is valid and try again!");
-  //  return;
-  //}
-
-  //data1d = p4DImage->getRawData();
-  //N = p4DImage->getXDim();
-  //M = p4DImage->getYDim();
-  //P = p4DImage->getZDim();
-  //c = p4DImage->getCDim();
-
-  //load image:
-
-
-  //N = sz0;
-  //M = sz1;
-  //P = sz2;
-  //sc = sz2;
-
-  N = in_sz[0];
-  M = in_sz[1];
-  P = in_sz[2];
-  sc = in_sz[3];
-  c = 1;
-
-  //data1d = p4DImage.getData(datatype);
-
-
   //main neuron reconstruction code
-  //// THIS IS WHERE THE DEVELOPERS SHOULD ADD THEIR OWN NEURON TRACING CODE
 
   // show configure GUI window
   sigen::interface::Options options;
@@ -279,10 +194,12 @@ void reconstruction_func_direct(unsigned char * data1d,
     pt.pn = out_pn[i];
     nt.listNeuron.push_back(pt);
   }
-  cout<<"writing out"<<endl;
 
-  // QString swc_name = PARA.inimg_file + "_SIGEN.swc";
-  QString swc_name = "output_SIGEN.swc";
+
+
+  // QString swc_name = "output_SIGEN.swc";
+  QString inimgfile = PARA.inimg_file;
+  QString swc_name = inimgfile.section(".",0,0) + "_SIGEN.swc";
   writeSWC_file(swc_name.toStdString().c_str(), nt);
   if (!via_gui) {
     if (data1d) {
@@ -290,6 +207,6 @@ void reconstruction_func_direct(unsigned char * data1d,
       //data1d = NULL;
     }
   }
-  v3d_msg(QString("Now you can drag and drop the generated swc fle [%1] into Vaa3D.").arg(swc_name.toStdString().c_str()), via_gui);
+  v3d_msg(QString("Now you can drag and drop the generated swc file [%1] into Vaa3D.").arg(swc_name.toStdString().c_str()), via_gui);
   return;
 }

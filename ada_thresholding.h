@@ -83,8 +83,6 @@ public:
 	public slots:
 	void update();
 };
-
-//void thimg(V3DPluginCallback2 &callback, QWidget *parent, int method_code);
-bool thimg(V3DPluginCallback2 &callback, const V3DPluginArgList & input, V3DPluginArgList & output);
+bool adaptive_thresholding(V3DPluginCallback2 &callback, const V3DPluginArgList & input, V3DPluginArgList & output, unsigned char * pData1, V3DLONG* sz0_address, V3DLONG* sz1_address, V3DLONG* sz2_address, V3DLONG* sz3_address, Image4DSimple *p4DImage);
 
 #endif

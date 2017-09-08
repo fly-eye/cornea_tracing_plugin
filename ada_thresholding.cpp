@@ -52,7 +52,7 @@ void BinaryProcess(T *apsInput, T * aspOutput, V3DLONG iImageWidth, V3DLONG iIma
 	}
 }
 
-bool adaptive_thresholding(V3DPluginCallback2 &callback, const V3DPluginArgList & input, V3DPluginArgList & output, unsigned char * pData1, V3DLONG* sz0_address, V3DLONG* sz1_address, V3DLONG* sz2_address, V3DLONG* sz3_address, Image4DSimple *p4DImage)
+bool adaptive_thresholding(V3DPluginCallback2 &callback, const V3DPluginArgList & input, V3DPluginArgList & output, unsigned char * pData1, Image4DSimple *p4DImage)
 {
 	cout<<"Welcome to Gaussian filter"<<endl;
 	if (input.size()<1 || output.size() != 1) return false;
@@ -109,11 +109,11 @@ bool adaptive_thresholding(V3DPluginCallback2 &callback, const V3DPluginArgList 
 	PARA.channel = ((int)paras.size() >= k + 1) ? atoi(paras[k]) : 1;
 	k++;
 	cout<<"before size assignment"<<endl;
-	//sz_data[0]=*sz0; sz_data[1]=*sz1; sz_data[2]=*sz2; sz_data[3]=1;
-  *sz0_address = sz0;
-	*sz1_address = sz1;
-	*sz2_address = sz2;
-	*sz3_address = sz3;
+
+  //*sz0_address = sz0;
+	//*sz1_address = sz1;
+	//sz2_address = sz2;
+	//sz3_address = sz3;
 	cout<<"after size assignment"<<endl;
 
         switch (subject->getDatatype())
@@ -240,7 +240,7 @@ cout<<unsigned(((unsigned char *)pData)[0])<<endl;
 
 //callback.saveImage(&p4DImage2,outimg_file);
 callback.saveImage(p4DImage,outimg_file);
-cout<<"Here"<<endl;
+//cout<<"Here"<<endl;
 //Image4DSimple *p4DImage3 = &p4DImage2;
 //p4DImage = &p4DImage2;
 //cout<<"Here"<<endl;
@@ -249,9 +249,9 @@ cout<<"Here"<<endl;
 //for (V3DLONG i=0; i<sz0*sz1*sz2;i++)
 //	sum = sum + pData3[i];
 //cout<<"sum"<<sum<<endl;
-cout<<p4DImage->getXDim()<<endl;
-cout<<"getDatatype"<<p4DImage->getDatatype()<<endl;
-//cout<<"address"<<pData3[0]<<endl;
+
+
+
 //p4DImage->deleteRawDataAndSetPointerToNull();
 p4DImage->setRawDataPointer((unsigned char *)pData);
 

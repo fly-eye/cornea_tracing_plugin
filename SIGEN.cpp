@@ -51,8 +51,8 @@ void rescale (unsigned char * data1d, int totalsize){
 		//if (data1d[i]>255) data1d[i] = 255;
 
     //thresholds the image at 200: what should be the threshold???
-    if (data1d[i]>200) data1d[i] = 255;
-    if (data1d[i]<=200) data1d[i] = 0;
+    //if (data1d[i]>240) data1d[i] = 255;
+    //if (data1d[i]<=240) data1d[i] = 0;
 	}
 }
 void neuron_tracing(unsigned char * data1d,

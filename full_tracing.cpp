@@ -12,38 +12,36 @@ bool full_tracing(V3DPluginCallback2 &callback, const V3DPluginArgList & input, 
   sz_data_address[4] = &sz_data[4];
 
   V3DLONG sz0,sz1,sz2,sz3;
-  V3DLONG *sz0_address, *sz1_address, *sz2_address,*sz3_address;
-  sz0_address = &sz0;
-  sz1_address = &sz1;
-  sz2_address = &sz2;
-  sz3_address = &sz3;
+  //V3DLONG *sz0_address, *sz1_address, *sz2_address,*sz3_address;
+  //sz0_address = &sz0;
+  //sz1_address = &sz1;
+  //sz2_address = &sz2;
+  //sz3_address = &sz3;
 
   // adaptive_thresholding
   Image4DSimple image;
   Image4DSimple *p4DImage;
   p4DImage = &image;
-  cout<<"address"<<p4DImage<<endl;
-  adaptive_thresholding(callback, input, output, (unsigned char *)pData1, sz0_address,sz1_address,sz2_address,sz3_address,&image);
+
+  adaptive_thresholding(callback, input, output, (unsigned char *)pData1,&image);
 
   //V3DLONG sz0 = *sz_data[0];
   //V3DLONG sz1 = *sz_data[1];
   //V3DLONG sz2 = *sz_data[2];
   //V3DLONG sz3 = *sz_data[3];
 
-  int getDatatype = 1;
+  cout<<"after adaptive thresholding"<<endl;
+
+  sz0 = image.getXDim();
+  sz1 = image.getYDim();
+  sz2 = image.getZDim();
+  sz3 = image.getCDim();
+  int datatype = image.getDatatype();
 
   cout<<sz0<<endl;
   cout<<sz1<<endl;
   cout<<sz2<<endl;
   cout<<sz3<<endl;
-
-  //cout<<&pData1[0]<<endl;
-  //cout<<unsigned(pData1[sz0*sz1*sz2*sz3-100])<<endl;
-  cout<<"after adaptive thresholding"<<endl;
-  cout<<p4DImage<<endl;
-  cout<<image.getXDim()<<endl;
-  cout<<image.getYDim()<<endl;
-  cout<<image.getZDim()<<endl;
 
   unsigned char *pData = image.getRawData();
 
@@ -73,6 +71,19 @@ bool full_tracing(V3DPluginCallback2 &callback, const V3DPluginArgList & input, 
   //------------------------------------------------------------------------------------------
   // Rescaling/Thresholding
   //------------------------------------------------------------------------------------------
+  int max = 0;
+  for (V3DLONG i=0; i<sz0*sz1*sz2;i++)
+    if (unsigned(((unsigned char *)pData)[i])>max)
+      max = unsigned(((unsigned char *)pData)[i]);
+  cout<<"max"<<max<<endl;
+
+  int min = 255;
+  for (V3DLONG i=0; i<sz0*sz1*sz2;i++)
+    if (unsigned(((unsigned char *)pData)[i])<min)
+      min = unsigned(((unsigned char *)pData)[i]);
+  cout<<"min"<<min<<endl;
+
+
   rescale((unsigned char *) pData, sz0*sz1*sz2*sz3);
 
   // neuron tracing algorithm
@@ -90,10 +101,17 @@ bool full_tracing(V3DPluginCallback2 &callback, const V3DPluginArgList & input, 
   } else {
   	PARA.inimg_file = infiles[0];
   }
-  int k = 0;
+  int k = 2;
   PARA.channel = ((int)paras.size() >= k + 1) ? atoi(paras[k]) : 1;
+  cout<<PARA.channel<<endl;
+  //PARA.channel = 1;
   k++;
-  neuron_tracing((unsigned char *)pData, sz0, sz1, sz2, sz3, 1,PARA,false);
+
+  cout<<"channel"<<PARA.channel<<endl;
+  sz3 = 1;
+
+
+  neuron_tracing((unsigned char *)pData, sz0, sz1, sz2, sz3, datatype,PARA,false);
 
  return(true);
 }

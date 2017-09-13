@@ -1,9 +1,9 @@
 ## Example plugin for Vaa3d
 Build:
 
-qmake
+`qmake`
 
-make
+`make`
 
 Call:
 

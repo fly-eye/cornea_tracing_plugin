@@ -24,9 +24,7 @@ After this procedure most probably one would want to use an upsampling procedure
 
 If data is in a folder of tif files, convert to tif stack by
 
-`
-
-vaa3d_build -x IVSCC_import_data -f import -i /Users/valentina/projects/cornea_project/Holco_Scan53_fly1_eye1 -o ~/projects/cornea_project/Holco_Scan53_fly1_eye1/combined53.v3draw  -p 0 0
+`vaa3d_build -x IVSCC_import_data -f import -i /Users/valentina/projects/cornea_project/Holco_Scan53_fly1_eye1 -o ~/projects/cornea_project/Holco_Scan53_fly1_eye1/combined53.v3draw  -p 0 0
 `
 (before that need tp build the plugin in vaa3d_tools/hackathon/zhi/IVSCC_import_data)
 

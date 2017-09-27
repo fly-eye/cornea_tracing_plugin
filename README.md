@@ -1,4 +1,4 @@
-## Cornea plugin for Vaa3d
+## Cornea tracing plugin for Vaa3d
 Build:
 
 `qmake`

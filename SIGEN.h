@@ -5,6 +5,7 @@
 // missing definition of input_PARA
 struct input_PARA {
   QString inimg_file;
+  QString swc_file;
   V3DLONG channel;
 };
 

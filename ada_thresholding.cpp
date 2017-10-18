@@ -52,10 +52,23 @@ void BinaryProcess(T *apsInput, T * aspOutput, V3DLONG iImageWidth, V3DLONG iIma
 	}
 }
 
+/** adaptive_thresholding is a function from the plug-in 'thresholding -> simple adaptive thresholding in Vaa3D
+
+bool adaptive_thresholding(V3DPluginCallback2 &callback, const V3DPluginArgList & input, V3DPluginArgList & output, unsigned char * pData1, Image4DSimple *p4DImage)
+
+Inputs:
+- h = input.p[0] sampling interval (default h = 5)
+- d = input.p[1] number of sampling points (default d = 3)
+
+Outputs:
+- the thresholded image is stored in
+
+*/
 bool adaptive_thresholding(V3DPluginCallback2 &callback, const V3DPluginArgList & input, V3DPluginArgList & output, unsigned char * pData1, Image4DSimple *p4DImage)
 {
 	cout<<"Welcome to Gaussian filter"<<endl;
-	if (input.size()<1 || output.size() != 1) return false;
+	//if (input.size()<1 || output.size() != 1) return false;
+	if (input.size()<1) return false;
 
 	V3DLONG h = 5, d = 3;
      if (input.size()>=2)
@@ -66,7 +79,8 @@ bool adaptive_thresholding(V3DPluginCallback2 &callback, const V3DPluginArgList 
 	}
 
 	char * inimg_file = ((vector<char*> *)(input.at(0).p))->at(0);
-	char * outimg_file = ((vector<char*> *)(output.at(0).p))->at(0);
+	//char * outimg_file = ((vector<char*> *)(output.at(1).p))->at(1);
+	char * outimg_file = "output_image.tif";
 	cout<<"h = "<<h<<endl;
   cout<<"d = "<<d<<endl;
 	cout<<"inimg_file = "<<inimg_file<<endl;

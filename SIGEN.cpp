@@ -53,6 +53,7 @@ void rescale (unsigned char * data1d, int totalsize){
     //thresholds the image at 200: what should be the threshold???
     //if (data1d[i]>240) data1d[i] = 255;
     //if (data1d[i]<=240) data1d[i] = 0;
+    data1d[i] = (data1d[i]>240) ? 255:0;
 	}
 }
 void neuron_tracing(unsigned char * data1d,
@@ -83,6 +84,8 @@ void neuron_tracing(unsigned char * data1d,
   P = in_sz[2];
   sc = in_sz[3];
   c = 1; //first channel
+  c = PARA.channel;
+  sc = 1;
 
   /*
   if (via_gui) {
@@ -196,17 +199,18 @@ void neuron_tracing(unsigned char * data1d,
   }
 
 
+  // Wrting the .swc file
 
   // QString swc_name = "output_SIGEN.swc";
-  QString inimgfile = PARA.inimg_file;
-  QString swc_name = inimgfile.section(".",0,0) + "_SIGEN.swc";
-  writeSWC_file(swc_name.toStdString().c_str(), nt);
+  // QString inimgfile = PARA.inimg_file;
+  //QString swc_name = .section(".",0,0) + "_SIGEN.swc";
+  writeSWC_file(PARA.swc_file.toStdString().c_str(), nt);
   if (!via_gui) {
     if (data1d) {
       //delete[] data1d;
       //data1d = NULL;
     }
   }
-  v3d_msg(QString("Now you can drag and drop the generated swc file [%1] into Vaa3D.").arg(swc_name.toStdString().c_str()), via_gui);
+  v3d_msg(QString("Now you can drag and drop the generated swc file [%1] into Vaa3D.").arg(PARA.swc_file.toStdString().c_str()), via_gui);
   return;
 }

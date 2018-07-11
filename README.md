@@ -1,4 +1,9 @@
+
 ## Cornea tracing plugin for Vaa3d
+
+This repository contains a plugin for the [Vaa3d Software](www.vaa3d.org). It performs cornea image segmentation and tracing which extracts the structure of compound eyes from 3D volumes. The final traced graph is returned in [.swc](http://www.neuronland.org/NLMorphologyConverter/MorphologyFormats/SWC/Spec.html) format, and can be further used to extract lens statistics. 
+
+
 Build:
 
 `qmake`
